@@ -1,2 +1,4 @@
 ipycanvas
-mobilechelonian
+pandas
+numpy
+matplotlib
