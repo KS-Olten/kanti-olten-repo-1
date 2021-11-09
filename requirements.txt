@@ -1,4 +1,0 @@
-ipycanvas
-pandas
-numpy
-matplotlib
