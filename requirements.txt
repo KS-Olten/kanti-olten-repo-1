@@ -1,0 +1,4 @@
+ipycanvas
+pandas
+numpy
+matplotlib
