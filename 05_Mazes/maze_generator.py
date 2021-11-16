@@ -197,6 +197,8 @@ def bfs_solve_maze(maze_matrix, steps=False):
             path.append((x, y))
             step -= 1
             
+    path.pop()
+            
     return solved_maze, path
 
 def plot_path(maze_matrix, solved_maze, path):
