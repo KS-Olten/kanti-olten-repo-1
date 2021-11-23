@@ -322,6 +322,109 @@ def dfs_solve_maze(maze_matrix, steps=False):
     path.pop()
             
     return solved_maze, path
+
+def a_star_solve_maze(maze_matrix, steps=False):
+    maze_height = len(maze_matrix)
+    maze_width = len(maze_matrix[0])
+    solved_maze = [[0 for x in range(maze_width)] for x in range(maze_height)]
+    weighted_maze = [[0 for x in range(maze_width)] for x in range(maze_height)]
+
+    start_x = 0
+    start_y = 1
+
+    end_x = len(maze_matrix)-1
+    end_y = len(maze_matrix[len(maze_matrix) - 1]) - 2
+    
+    for x in range(maze_height):
+        for y in range(maze_width):
+            if maze_matrix[x][y] == 0:
+                weighted_maze[x][y] = (maze_height + maze_width) - (end_x - x) - (end_y - y)
+    
+    step = 1
+    
+    solved_maze[start_x][start_y] = step    
+        
+    while solved_maze[end_x][end_y] == 0:
+        
+        step = step + 1
+        max_nr = 0
+        max_nr_x = 0
+        max_nr_y = 0
+        
+        for x in range(maze_height):
+            for y in range(maze_width):
+                if solved_maze[x][y] != 0:
+                    if x - 1 >= 0 and maze_matrix[x-1][y] == 0 and solved_maze[x-1][y] == 0:
+                        if weighted_maze[x-1][y] > max_nr:
+                            max_nr = weighted_maze[x-1][y]
+                            max_nr_x = x-1
+                            max_nr_y = y
+                            
+                    if x + 1 < maze_height and maze_matrix[x+1][y] == 0 and solved_maze[x+1][y] == 0:
+                        if weighted_maze[x+1][y] > max_nr:
+                            max_nr = weighted_maze[x+1][y]
+                            max_nr_x = x+1
+                            max_nr_y = y
+                            
+                    if y - 1 >= 0 and maze_matrix[x][y-1] == 0 and solved_maze[x][y-1] == 0:
+                        if weighted_maze[x][y-1] > max_nr:
+                            max_nr = weighted_maze[x][y-1]
+                            max_nr_x = x
+                            max_nr_y = y - 1
+                            
+                    if  y + 1 < maze_width and maze_matrix[x][y+1] == 0 and solved_maze[x][y+1] == 0:
+                        if weighted_maze[x][y+1] > max_nr:
+                            max_nr = weighted_maze[x][y+1]
+                            max_nr_x = x
+                            max_nr_y = y + 1
+        
+        solved_maze[max_nr_x][max_nr_y] = step
+        if steps:
+            print_pretty(solved_maze)
+  
+
+    path = []
+    x = end_x
+    y = end_y
+    
+    step = solved_maze[x][y]
+    path.append((x, y))
+
+    while step > 1:
+        
+        min_val = solved_maze[end_x][end_y]
+        min_x = 0
+        min_y = 0
+        
+        if x - 1 >= 0 and solved_maze[x-1][y] != 0:
+            if solved_maze[x-1][y] < min_val:
+                min_val = solved_maze[x-1][y]
+                min_x = x - 1
+                min_y = y
+        if x + 1 < maze_height and solved_maze[x+1][y] != 0:
+            if solved_maze[x+1][y] < min_val:
+                min_val = solved_maze[x+1][y]
+                min_x = x + 1
+                min_y = y
+        if y - 1 >= 0 and solved_maze[x][y-1] != 0:
+            if solved_maze[x][y-1] < min_val:
+                min_val = solved_maze[x][y-1]
+                min_x = x
+                min_y = y-1
+        if  y + 1 < maze_width and solved_maze[x][y+1] != 0:
+            if solved_maze[x][y+1] < min_val:
+                min_val = solved_maze[x][y+1]
+                min_x = x
+                min_y = y+1
+        
+        step = solved_maze[min_x][min_y]
+        path.append((min_x, min_y))
+
+        x = min_x
+        y = min_y
+            
+    return solved_maze, path
+
     
 def plot_path(maze_matrix, solved_maze, path):
     im = Image.new("RGB",(len(solved_maze[0]), len(solved_maze)))
