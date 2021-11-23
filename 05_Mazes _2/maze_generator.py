@@ -234,10 +234,10 @@ def dfs_solve_maze_get_surrounding(solved_maze, maze_matrix, x, y):
     surrounding = []
     if (x + 1) < len(maze_matrix) and maze_matrix[x + 1][y] == 0 and solved_maze[x + 1][y] == 0:
         surrounding.append((x+1, y))
-    if (y + 1) < len(maze_matrix[0]) and maze_matrix[x][y + 1] == 0 and solved_maze[x][y + 1] == 0:
-        surrounding.append((x, y+1))
     if (x - 1) >= 0 and maze_matrix[x-1][y] == 0 and solved_maze[x-1][y] == 0:
         surrounding.append((x-1, y))
+    if (y + 1) < len(maze_matrix[0]) and maze_matrix[x][y + 1] == 0 and solved_maze[x][y + 1] == 0:
+        surrounding.append((x, y+1))
     if (y - 1) >= 0 and maze_matrix[x][y-1] == 0 and solved_maze[x][y-1] == 0:
         surrounding.append((x, y-1))
 
