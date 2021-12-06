@@ -2,3 +2,4 @@ ipycanvas
 pandas
 numpy
 matplotlib
+scikit-learn
